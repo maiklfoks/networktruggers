@@ -7,7 +7,10 @@
 
 
 window.Vue = require('vue').default;
-import {createApp} from "vue";
+import { createApp } from "vue";
+import router from "./router/router";
+import components from "./components/UI"
+import store from "./store";
 const app = createApp({});
 
 /**
@@ -18,11 +21,16 @@ const app = createApp({});
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
+
+components.forEach(component => {
+    app.component(component.name, component)
+})
+
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 app.component('example-component', require('./components/ExampleComponent.vue').default);
-app.mount("#app")
+app.use(router).use(store).mount("#app")
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
